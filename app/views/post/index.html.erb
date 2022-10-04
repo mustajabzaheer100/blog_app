@@ -1,0 +1,14 @@
+<% if user_signed_in? %>
+ <%= link_to "Signout" , destroy_user_session_path, method: :delete %>
+<% else %>
+ <%= link_to "Sign In" , new_user_session_path, method: :new %>
+<% end %>
+
+<h1> This is the index page</h1>
+<h1>All Posts</h1>
+
+<ul>
+  <% @posts.each do |post| %>
+    <li><%= link_to post.title , post_path(post.id) %></li>
+  <% end %>
+</ul>
