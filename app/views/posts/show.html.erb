@@ -1,8 +1,47 @@
-<h1>Post</h1>
+<section>
+  <div class="container py-2">
+    <article class="postcard light blue">
+      <div class="postcard__img">
+        <%= image_tag @post.image if @post.image.attached? %>
+      </div>
+      <div class="postcard__text t-dark">
+        <div class="postcard__title">
+          <%= @post.title.capitalize %>
+        </div>
+        <div class="postcard__preview-txt">
+          <%= @post.description %>
+        </div>
+        <div>
+          <div class="btn btn-primary mb-1">
+            <%= link_to "Edit", edit_post_path(@post) %>
+          </div>
+          <div>
+            <%= button_to "Delete", post_path(@post), method: :delete, class: "btn btn-primary" %>
+          </div>
+        </div>
+        <div class="card-text text-muted form-control-sm">
+          <% if @post.created_at == @post.updated_at %>
+            <%= "Post was created #{time_ago_in_words(@post.created_at)}"%>
+          <% else  %>
+            <%= "Post was updated #{time_ago_in_words(@post.updated_at)}" %>
+          <% end %>
+        </div>
+    </article>
+  </div>
+</section>
 
-<%= image_tag @post.image if @post.image.attached? %><br>
-<%= @post.title %><br>
-<%= @post.description %><br>
+<div class="container">
+  <ul>
+    <%= form_with(model: [ @post, Comment.new ]) do |f| %>
+    <div class="form-group mb-2">
+      <%= f.text_area :body , { class: "form-control form-control-lg", placeholder: "Enter your Comment" } %>
+    </div>
+    <%= f.submit class: "btn btn-primary mb-2" %>
+    <% end %>
 
-<%= link_to "Edit", edit_post_path(@post), class: 'btn btn-primary' %>
-<%= button_to "Destroy", post_path(@post), method: :delete, class: 'btn btn-primary' %>
+    <%= render partial: 'comments/comment', collection: @post.comments %>
+  </ul>
+</div>
+
+
+

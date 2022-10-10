@@ -1,9 +1,35 @@
-<h1>All Posts</h1>
+<div class="h1 text-center text-dark" id="pageHeaderTitle">Posts</div>
 
-<ul>
-  <% @posts.each do |post| %>
-    <li><%= link_to post.title , post_path(post.id) %></li>
-  <% end %>
-</ul>
+<% @posts.each do |post| %>
+  <section>
+    <div class="container py-2">
+      <article class="postcard light blue">
+        <div class="postcard__img">
+          <%= image_tag post.image if post.image.attached? %>
+        </div>
 
-<%= link_to "Create Post", new_post_path , class: "btn btn-primary"%>
+        <div class="postcard__text t-dark">
+          <div class="postcard__title">
+            <%= link_to post.title.capitalize, post_path(post.id) %>
+          </div>
+
+          <div class="postcard__preview-txt">
+            <% if post.description.length == 329 %>
+              <%= post.description %>
+            <% else %>
+              <%= post.description.truncate(329) %>
+            <% end %>
+          </div>
+
+          <div class="card-text text-muted form-control-sm">
+            <% if post.created_at == post.updated_at %>
+              <%= "Post was made #{time_ago_in_words(post.created_at)}"%>
+            <% else  %>
+              <%= "Post was updated #{time_ago_in_words(post.updated_at)}" %>
+            <% end %>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+<% end %>

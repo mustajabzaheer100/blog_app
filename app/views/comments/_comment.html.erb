@@ -1,0 +1,24 @@
+
+<li>
+  <%= comment.body %> -
+
+  <%= form_with model: [comment, Comment.new] do |f| %>
+    <div class="form-group mb-2">
+      <%= f.hidden_field :reply_post_id, value: @post.id %>
+      <%= f.text_area :body , { class: "form-control form-control-sm", placeholder: "Add a Reply" } %>
+    </div>
+    <%= f.submit class: "btn btn-primary mb-2" %>
+  <% end %>
+
+  <div>
+    <% if comment.commentable_type == "Post" %>
+      <%= button_to "Delete", post_comment_path(@post, comment.id), method: :delete, class: "btn btn-primary" %>
+    <% elsif comment.commentable_type == "Comment" %>
+      <%= button_to "Delete", comment_comment_path(comment.commentable_id, comment.id, child_post_id: @post.id), method: :delete, class: "btn btn-primary" %>
+    <% end %>
+  </div>
+
+  <ul>
+      <%= render partial: 'comments/comment', collection: comment.comments %>
+  </ul>
+</li>

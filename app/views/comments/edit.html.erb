@@ -1,0 +1,11 @@
+<div class="container">
+  <ul>
+    <%= form_with(model: [ @post, Comment.new ]) do |f| %>
+    <div class="form-group mb-2">
+      <%= f.hidden_field :reply_post_id, value: @post.id %>
+      <%= f.text_area :body , { class: "form-control form-control-lg", placeholder: "Enter your Comment" } %>
+    </div>
+    <%= f.submit class: "btn btn-primary mb-2" %>
+    <% end %>
+  </ul>
+</div>
